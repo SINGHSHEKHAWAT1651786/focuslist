@@ -1,0 +1,17 @@
+{
+  "name": "FocusList",
+  "short_name": "FocusList",
+  "description": "A calm, focused place to plan your daily tasks.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f4f1",
+  "theme_color": "#f5f4f1",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

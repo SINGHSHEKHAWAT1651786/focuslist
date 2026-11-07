@@ -1,29 +1,57 @@
 # FocusList
 
-A frontend-only to-do app: plan the day, see what to do next, finish what matters.
-Vanilla HTML, CSS and JavaScript. No build step, no dependencies, no backend. Tasks are saved in the browser's localStorage.
+FocusList is a responsive, frontend-only to-do app for planning a day one task at a time. Tasks are stored in the browser; no account, backend, or external database is used.
 
-## Live demo
-[Open FocusList on Netlify](https://dulcet-sundae-ee92ec.netlify.app/)
-
-## Run
-Open `index.html` in a browser. The app uses system fonts and needs no network connection.
-
-## Deploy (static hosting, no build)
-- Netlify: drag this folder onto https://app.netlify.com/drop
-- GitHub Pages: deploy from the `main` branch and `/ (root)` in the repository's Pages settings.
-- Vercel: run `npx vercel` in this folder.
+**Live app:** [https://singhshekhawat1651786.github.io/focuslist/](https://singhshekhawat1651786.github.io/focuslist/)
 
 ## Features
-Add, complete, edit and delete tasks. High / Medium / Low priority. Search, plus filters by status and priority.
-Live Total / Completed / Pending stats with a progress ring. An "Up next" card for the most urgent task.
-Undo after delete. Tasks persist across reloads. Shortcuts: N (new task), / (search), Enter saves an edit, Esc cancels it.
 
-## Structure
-- `index.html`: semantic markup and accessibility labels
-- `styles.css`: design tokens first, then base, layout, components and responsive rules
-- `app.js`: one script, sections in data-flow order:
-  constants, helpers, storage, store (state + actions), selectors (filtering, stats), view (render functions), controllers (event binding), bootstrap
+- Add, edit, complete, and delete tasks with High, Medium, or Low priority.
+- Search by title and filter by completion status and priority.
+- See total, pending, completed, and progress statistics.
+- Automatically save tasks in local storage and synchronize changes between open tabs.
+- Undo multiple delete and clear-completed actions.
+- Keep task order stable when completion or priority changes.
+- View a daily priority indicator, responsive layouts, dark-mode styling, and a print-friendly task list.
 
-State is the single source of truth. Every change goes through a store action and the view re-renders from state.
-Filters and stats are derived by selectors and never stored. User text is inserted as text nodes, never as HTML.
+## Run locally
+
+Requires Node.js 20 or newer.
+
+```sh
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite. This project uses Vite modules, so open it through the development server instead of opening `index.html` directly.
+
+## Test and build
+
+```sh
+npm test
+npm run build
+npm run preview
+```
+
+The production site is written to `dist/`. Deploy that directory to Netlify, or use the included GitHub Pages workflow to build and publish the site.
+
+## Accessibility and design
+
+The interface uses semantic page landmarks, labeled controls, visible keyboard focus, a skip link, concise live announcements, and 44px minimum interactive targets. Priority is conveyed with text as well as color. Windows forced-colors mode, reduced motion, narrow screens, short desktop viewports, dark mode, and printing have dedicated styles.
+
+The app keeps the initial page content meaningful before JavaScript runs. Search results are not announced on every keystroke; task changes and undo actions use a separate status message.
+
+## Data and limitations
+
+Tasks remain in the current browser's local storage. Clearing site data or using another browser/device does not transfer them. Storage can be unavailable or full; in that case the app shows that changes could not be saved. Cross-tab updates apply the most recent local-storage change and replace the current tab's task list.
+
+FocusList does not currently provide cloud sync, accounts, due dates, drag-and-drop ordering, or import/export.
+
+## Deployment
+
+For Netlify, connect this repository and use:
+
+- **Build command:** `npm run build`
+- **Publish directory:** `dist`
+
+GitHub Pages serves the repository root, which also works without a build step. The GitHub Actions workflow runs the tests and production build on each push and pull request. For Netlify, deploy the generated `dist/` folder or connect the repository using the build settings above.

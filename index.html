@@ -1,84 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="FocusList: plan your day, see what to do next, finish what matters.">
-<meta name="theme-color" content="#26245f">
-<title>FocusList</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<a class="skip-link" href="#list-title">Skip to task list</a>
-<div class="shell">
-  <aside class="deck" aria-label="Today">
-    <h1 class="brand">FocusList</h1>
-    <p id="date" class="date"></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f4f1" />
+    <meta
+      name="description"
+      content="FocusList is a simple, accessible task planner that keeps your daily priorities in view."
+    />
+    <meta property="og:title" content="FocusList — Make room for what matters" />
+    <meta
+      property="og:description"
+      content="A calm, focused place to plan and complete your daily tasks."
+    />
+    <meta property="og:type" content="website" />
+    <title>FocusList — Make room for what matters</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#task-list">Skip to your tasks</a>
+    <div id="announcements" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+    <section id="undo-notice" class="undo-notice" aria-label="Undo task changes" hidden>
+      <p id="undo-message"></p>
+      <button id="undo-button" class="button button-quiet" type="button">Undo last action</button>
+      <button id="dismiss-undo" class="icon-button" type="button" aria-label="Dismiss undo history">Dismiss</button>
+    </section>
 
-    <div class="progress" aria-live="polite">
-      <div class="ring-wrap" id="ring" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"/></svg>
-        <span id="pct">0%</span>
-      </div>
-      <div><p id="headline"></p><p id="subline"></p></div>
-    </div>
+    <main class="shell">
+      <header class="deck">
+        <div class="brand-row">
+          <a class="brand" href="/" aria-label="FocusList home">
+            <span class="brand-mark" aria-hidden="true">F</span>
+            <span>focuslist</span>
+          </a>
+          <time id="today-date" class="today-date">Today</time>
+        </div>
 
-    <dl class="stats">
-      <div class="stat"><dt>Total tasks</dt><dd id="stat-total">0</dd></div>
-      <div class="stat"><dt>Completed tasks</dt><dd id="stat-completed">0</dd></div>
-      <div class="stat"><dt>Pending tasks</dt><dd id="stat-pending">0</dd></div>
-    </dl>
+        <div class="welcome">
+          <p class="eyebrow">YOUR DAY, AT A GLANCE</p>
+          <h1 id="welcome-title">Make room for what matters.</h1>
+          <p id="welcome-subtitle">A little progress adds up. Choose your next step.</p>
+        </div>
 
-    <form id="add-form" class="add" novalidate>
-      <label class="sr-only" for="new-title">Task title</label>
-      <input id="new-title" class="field" type="text" placeholder="What needs doing? (press N)" autocomplete="off">
-      <fieldset class="chips">
-        <legend class="sr-only">Priority</legend>
-        <label class="chip" data-p="high"><input type="radio" name="new-priority" value="high"><span>High</span></label>
-        <label class="chip" data-p="medium"><input type="radio" name="new-priority" value="medium" checked><span>Medium</span></label>
-        <label class="chip" data-p="low"><input type="radio" name="new-priority" value="low"><span>Low</span></label>
-      </fieldset>
-      <button class="btn btn-cta" type="submit">Add task</button>
-      <p id="add-error" class="error" role="alert"></p>
-    </form>
-  </aside>
+        <section class="progress-card" aria-labelledby="progress-title">
+          <div class="progress-copy">
+            <p id="progress-title" class="card-label">DAILY PROGRESS</p>
+            <p class="progress-summary"><strong id="progress-percent">0%</strong> completed</p>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="Daily task progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span id="progress-bar"></span>
+          </div>
+          <div class="stats" aria-label="Task statistics">
+            <div class="stat"><strong id="total-count">0</strong><span>Total tasks</span></div>
+            <div class="stat"><strong id="pending-count">0</strong><span>Pending</span></div>
+            <div class="stat"><strong id="completed-count">0</strong><span>Completed</span></div>
+          </div>
+        </section>
 
-  <main class="board" aria-labelledby="list-title">
-    <h2 id="list-title" class="sr-only" tabindex="-1">Your tasks</h2>
-    <label class="sr-only" for="search">Search tasks</label>
-    <input id="search" class="field" type="search" placeholder="Search tasks (press /)" autocomplete="off">
-    <div class="filters">
-      <div id="status-filter" class="seg" role="group" aria-label="Filter by status">
-        <button type="button" data-status="all">All</button>
-        <button type="button" data-status="active">Active</button>
-        <button type="button" data-status="completed">Completed</button>
-      </div>
-      <div id="pfilter" class="pf" role="group" aria-label="Filter by priority">
-        <button type="button" data-pfilter="all">Any priority</button>
-        <button type="button" data-pfilter="high">High</button>
-        <button type="button" data-pfilter="medium">Medium</button>
-        <button type="button" data-pfilter="low">Low</button>
-      </div>
-    </div>
-    <ul id="task-list" class="tasks"></ul>
-    <div id="empty" class="empty" hidden>
-      <p id="empty-title" class="empty-title"></p>
-      <p id="empty-hint"></p>
-      <button id="reset-filters" type="button" class="btn btn-ghost" hidden>Reset filters</button>
-    </div>
-    <div class="list-foot">
-      <span id="result-count" aria-live="polite"></span>
-      <button id="clear-completed" type="button" class="btn btn-ghost" hidden>Clear completed</button>
-    </div>
-  </main>
-  <footer>Saved automatically on this device.</footer>
-</div>
+        <form id="task-form" class="add-card" novalidate>
+          <label for="new-title" class="card-label">ADD A TASK</label>
+          <div class="add-fields">
+            <div class="title-field">
+              <input id="new-title" name="title" type="text" maxlength="120" autocomplete="off" placeholder="What needs your attention?" aria-describedby="title-help title-count title-error" required />
+            </div>
+            <label class="visually-hidden" for="new-priority">Task priority</label>
+            <select id="new-priority" name="priority">
+              <option value="medium">Medium priority</option>
+              <option value="high">High priority</option>
+              <option value="low">Low priority</option>
+            </select>
+            <button class="button button-primary add-button" type="submit"><span aria-hidden="true">+</span> Add task</button>
+          </div>
+          <div class="field-meta">
+            <span id="title-help">Keep it clear and actionable.</span>
+            <span id="title-count">0 / 120</span>
+          </div>
+          <p id="title-error" class="field-error" aria-live="polite"></p>
+        </form>
 
-<div id="toast" class="toast" role="status" hidden>
-  <span id="toast-msg"></span>
-  <button id="undo" type="button" class="btn">Undo</button>
-</div>
+        <footer class="save-note">
+          <span class="save-dot" aria-hidden="true"></span>
+          <span id="save-status">Saved automatically on this device</span>
+        </footer>
+      </header>
 
-<script src="app.js" defer></script>
-</body>
+      <section class="board" aria-labelledby="tasks-heading">
+        <div class="board-heading">
+          <div>
+            <p class="eyebrow">YOUR LIST</p>
+            <h2 id="tasks-heading">Tasks <span id="visible-count" class="count-pill">0</span></h2>
+          </div>
+          <button id="clear-completed" class="button button-quiet clear-button" type="button" disabled>Clear completed</button>
+        </div>
+
+        <div class="toolbar">
+          <form id="search-form" class="search-wrap" role="search" aria-label="Search tasks">
+            <label class="visually-hidden" for="task-search">Search tasks</label>
+            <span class="search-icon" aria-hidden="true"></span>
+            <input id="task-search" type="search" placeholder="Search your tasks..." autocomplete="off" />
+          </form>
+          <fieldset class="filters">
+            <legend class="visually-hidden">Show tasks by completion</legend>
+            <button type="button" class="filter-button is-selected" data-status-filter="all" aria-pressed="true">All</button>
+            <button type="button" class="filter-button" data-status-filter="active" aria-pressed="false">Active</button>
+            <button type="button" class="filter-button" data-status-filter="completed" aria-pressed="false">Completed</button>
+          </fieldset>
+          <label class="visually-hidden" for="priority-filter">Filter tasks by priority</label>
+          <select id="priority-filter" class="priority-filter">
+            <option value="all">All priorities</option>
+            <option value="high">High priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="low">Low priority</option>
+          </select>
+        </div>
+
+        <p id="result-summary" class="result-summary">0 tasks</p>
+        <ul id="task-list" class="task-list" aria-label="Tasks">
+          <li id="empty-state" class="empty-state">
+            <span class="empty-icon" aria-hidden="true">✦</span>
+            <h3 id="empty-title">Your list is clear.</h3>
+            <p id="empty-copy">Add a task above to get started.</p>
+          </li>
+        </ul>
+        <p id="list-error" class="list-error" hidden>Tasks could not be displayed. Please refresh the page.</p>
+        <p id="storage-warning" class="storage-warning" hidden>Your changes are not being saved on this device.</p>
+      </section>
+    </main>
+    <footer class="page-footer">One thing at a time. You’ve got this.</footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
 </html>
