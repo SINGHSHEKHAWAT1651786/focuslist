@@ -7,7 +7,7 @@
   --medium:#ffb703;--medium-bg:#fff0c2;--medium-ink:#7a5200;
   --low:#2ec4b6;--low-bg:#d9f7f3;--low-ink:#0b6a60;
   --shadow:0 2px 4px rgb(23 22 58/.05),0 14px 32px rgb(23 22 58/.09);
-  --font:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   color-scheme:light;box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -19,6 +19,8 @@ body{margin:0;background:var(--page);color:var(--ink);font:400 1rem/1.5 var(--fo
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid var(--ring);outline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip-link{position:fixed;z-index:10;top:.75rem;left:.75rem;padding:.7rem 1rem;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:10px;transform:translateY(-160%)}
+.skip-link:focus{transform:translateY(0)}
 button{font-family:inherit}
 
 /* ===== 3. Layout ===== */

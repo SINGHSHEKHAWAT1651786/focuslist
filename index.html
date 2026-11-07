@@ -4,13 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="FocusList: plan your day, see what to do next, finish what matters.">
+<meta name="theme-color" content="#26245f">
 <title>FocusList</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="skip-link" href="#list-title">Skip to task list</a>
 <div class="shell">
   <aside class="deck" aria-label="Today">
     <h1 class="brand">FocusList</h1>
@@ -45,7 +44,7 @@
   </aside>
 
   <main class="board" aria-labelledby="list-title">
-    <h2 id="list-title" class="sr-only">Your tasks</h2>
+    <h2 id="list-title" class="sr-only" tabindex="-1">Your tasks</h2>
     <label class="sr-only" for="search">Search tasks</label>
     <input id="search" class="field" type="search" placeholder="Search tasks (press /)" autocomplete="off">
     <div class="filters">
@@ -80,6 +79,6 @@
   <button id="undo" type="button" class="btn">Undo</button>
 </div>
 
-<script src="app.js" defer></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

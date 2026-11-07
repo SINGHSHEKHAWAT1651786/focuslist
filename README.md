@@ -7,7 +7,10 @@ Vanilla HTML, CSS and JavaScript. No build step, no dependencies, no backend. Ta
 [Open FocusList](https://singhshekhawat1651786.github.io/focuslist/)
 
 ## Run
-Open `index.html` in a browser. It loads one font from Google Fonts and falls back to system fonts when offline.
+Open `index.html` in a browser. The app uses system fonts and needs no network connection.
+
+## Test
+Run `npm test` with Node.js 18 or newer. Tests use Node's built-in test runner; no packages need to be installed.
 
 ## Deploy (static hosting, no build)
 - Netlify: drag this folder onto https://app.netlify.com/drop
@@ -22,8 +25,12 @@ Undo after delete. Tasks persist across reloads. Shortcuts: N (new task), / (sea
 ## Structure
 - `index.html`: semantic markup and accessibility labels
 - `styles.css`: design tokens first, then base, layout, components and responsive rules
-- `app.js`: one script, sections in data-flow order:
-  constants, helpers, storage, store (state + actions), selectors (filtering, stats), view (render functions), controllers (event binding), bootstrap
+- `app.js`: application bootstrap and dependency wiring
+- `src/task-model.js`: task state, actions, validation, filtering, and statistics
+- `src/task-storage.js`: validated localStorage persistence
+- `src/task-view.js`: accessible DOM rendering
+- `src/task-controller.js`: form, filter, keyboard, and task event handlers
+- `tests/`: model, filtering, state, and persistence tests
 
 State is the single source of truth. Every change goes through a store action and the view re-renders from state.
 Filters and stats are derived by selectors and never stored. User text is inserted as text nodes, never as HTML.
