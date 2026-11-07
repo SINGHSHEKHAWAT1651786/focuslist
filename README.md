@@ -2,7 +2,7 @@
 
 FocusList is a responsive, frontend-only to-do app for planning a day one task at a time. Tasks are stored in the browser; no account, backend, or external database is used.
 
-**Live app:** [https://singhshekhawat1651786.github.io/focuslist/](https://singhshekhawat1651786.github.io/focuslist/)
+**Live app:** [https://subtle-gumption-494642.netlify.app/](https://subtle-gumption-494642.netlify.app/)
 
 ## Features
 
