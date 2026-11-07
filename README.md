@@ -4,7 +4,7 @@ A frontend-only to-do app: plan the day, see what to do next, finish what matter
 Vanilla HTML, CSS and JavaScript. No build step, no dependencies, no backend. Tasks are saved in the browser's localStorage.
 
 ## Live demo
-[Open FocusList on Netlify](https://papaya-monstera-61cf80.netlify.app/)
+[Open FocusList on Netlify](https://dulcet-sundae-ee92ec.netlify.app/)
 
 ## Run
 Open `index.html` in a browser. The app uses system fonts and needs no network connection.
