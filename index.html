@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="FocusList: plan your day, see what to do next, finish what matters.">
+<title>FocusList</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="deck" aria-label="Today">
+    <h1 class="brand">FocusList</h1>
+    <p id="date" class="date"></p>
+
+    <div class="progress" aria-live="polite">
+      <div class="ring-wrap" id="ring" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="52"/><circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"/></svg>
+        <span id="pct">0%</span>
+      </div>
+      <div><p id="headline"></p><p id="subline"></p></div>
+    </div>
+
+    <dl class="stats">
+      <div class="stat"><dt>Total tasks</dt><dd id="stat-total">0</dd></div>
+      <div class="stat"><dt>Completed tasks</dt><dd id="stat-completed">0</dd></div>
+      <div class="stat"><dt>Pending tasks</dt><dd id="stat-pending">0</dd></div>
+    </dl>
+
+    <form id="add-form" class="add" novalidate>
+      <label class="sr-only" for="new-title">Task title</label>
+      <input id="new-title" class="field" type="text" placeholder="What needs doing? (press N)" autocomplete="off">
+      <fieldset class="chips">
+        <legend class="sr-only">Priority</legend>
+        <label class="chip" data-p="high"><input type="radio" name="new-priority" value="high"><span>High</span></label>
+        <label class="chip" data-p="medium"><input type="radio" name="new-priority" value="medium" checked><span>Medium</span></label>
+        <label class="chip" data-p="low"><input type="radio" name="new-priority" value="low"><span>Low</span></label>
+      </fieldset>
+      <button class="btn btn-cta" type="submit">Add task</button>
+      <p id="add-error" class="error" role="alert"></p>
+    </form>
+  </aside>
+
+  <main class="board" aria-labelledby="list-title">
+    <h2 id="list-title" class="sr-only">Your tasks</h2>
+    <label class="sr-only" for="search">Search tasks</label>
+    <input id="search" class="field" type="search" placeholder="Search tasks (press /)" autocomplete="off">
+    <div class="filters">
+      <div id="status-filter" class="seg" role="group" aria-label="Filter by status">
+        <button type="button" data-status="all">All</button>
+        <button type="button" data-status="active">Active</button>
+        <button type="button" data-status="completed">Completed</button>
+      </div>
+      <div id="pfilter" class="pf" role="group" aria-label="Filter by priority">
+        <button type="button" data-pfilter="all">Any priority</button>
+        <button type="button" data-pfilter="high">High</button>
+        <button type="button" data-pfilter="medium">Medium</button>
+        <button type="button" data-pfilter="low">Low</button>
+      </div>
+    </div>
+    <ul id="task-list" class="tasks"></ul>
+    <div id="empty" class="empty" hidden>
+      <p id="empty-title" class="empty-title"></p>
+      <p id="empty-hint"></p>
+      <button id="reset-filters" type="button" class="btn btn-ghost" hidden>Reset filters</button>
+    </div>
+    <div class="list-foot">
+      <span id="result-count" aria-live="polite"></span>
+      <button id="clear-completed" type="button" class="btn btn-ghost" hidden>Clear completed</button>
+    </div>
+  </main>
+  <footer>Saved automatically on this device.</footer>
+</div>
+
+<div id="toast" class="toast" role="status" hidden>
+  <span id="toast-msg"></span>
+  <button id="undo" type="button" class="btn">Undo</button>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>
